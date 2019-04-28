@@ -1,0 +1,10 @@
+when ACCESS_POLICY_AGENT_EVENT {
+    set username [ACCESS::session data get session.logon.last.username]
+    set ipaddr [ACCESS::session data get session.user.clientip]
+    set domain [table lookup $username:$ipaddr]
+    log local0. "$username:$ipaddr=$domain"
+    if {$domain !=""} {
+        ACCESS::session data set session.custom.user.domain $domain
+    }
+
+}
